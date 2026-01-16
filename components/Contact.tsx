@@ -105,23 +105,23 @@ const Contact: React.FC = () => {
   };
 
   const getInputClass = (fieldName: string) => {
-    const base = "w-full px-4 py-3 rounded-lg border bg-slate-900/50 text-white placeholder-slate-500 focus:ring-2 transition-all outline-none appearance-none";
+    const base = "w-full px-4 py-3 rounded-lg border bg-navy-950/50 text-white placeholder-slate-500 focus:ring-2 transition-all outline-none appearance-none";
     if (touched[fieldName] && errors[fieldName]) {
       return `${base} border-red-500/50 focus:border-red-500 focus:ring-red-500/20`;
     }
     if (touched[fieldName] && !errors[fieldName] && formState[fieldName as keyof typeof formState]) {
       return `${base} border-green-500/50 focus:border-green-500 focus:ring-green-500/20`;
     }
-    return `${base} border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20`;
+    return `${base} border-white/10 focus:border-cyan-500 focus:ring-cyan-500/20`;
   };
 
   return (
-    <section id="contact" className="py-16 lg:py-20 bg-slate-900 relative">
+    <section id="contact" className="py-16 lg:py-20 bg-navy-950 relative border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-navy-950 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-slate-800">
+        <div className="bg-navy-900 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-white/5">
           
           {/* Contact Info Side */}
-          <div className="lg:w-5/12 bg-gradient-to-br from-navy-900 to-slate-900 p-8 md:p-12 text-white flex flex-col justify-between relative overflow-hidden order-2 lg:order-1">
+          <div className="lg:w-5/12 bg-gradient-to-br from-navy-800 to-navy-900 p-8 md:p-12 text-white flex flex-col justify-between relative overflow-hidden order-2 lg:order-1">
              {/* Decorative blob - Hidden on mobile for performance */}
              <div className="hidden lg:block absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[80px] rounded-full"></div>
 
@@ -133,7 +133,7 @@ const Contact: React.FC = () => {
               
               <div className="space-y-4 md:space-y-6">
                 <a href="https://wa.me/554792491544" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                  <div className="bg-slate-800 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-slate-700">
+                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
                     <Phone className="h-6 w-6 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
@@ -143,7 +143,7 @@ const Contact: React.FC = () => {
                 </a>
 
                 <a href="mailto:anthonybanharavelho@gmail.com" className="flex items-center gap-4 group">
-                  <div className="bg-slate-800 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-slate-700">
+                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
                     <Mail className="h-6 w-6 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
@@ -153,7 +153,7 @@ const Contact: React.FC = () => {
                 </a>
 
                 <a href="https://instagram.com/tony_.xra" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                  <div className="bg-slate-800 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-slate-700">
+                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
                     <Instagram className="h-6 w-6 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
@@ -165,7 +165,7 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="mt-8 md:mt-12 relative z-10">
-               <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700 backdrop-blur-md">
+               <div className="p-4 bg-navy-950/50 rounded-xl border border-white/10 backdrop-blur-md">
                   <p className="text-sm text-slate-300 italic">
                     "A melhor decisão que tomei foi investir em um site profissional. O retorno foi imediato!"
                   </p>
@@ -175,7 +175,7 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Form Side */}
-          <div className="lg:w-7/12 p-8 md:p-12 bg-slate-900 order-1 lg:order-2">
+          <div className="lg:w-7/12 p-8 md:p-12 bg-navy-900 order-1 lg:order-2">
             <h3 className="text-2xl font-bold text-white mb-6">Solicite um orçamento gratuito</h3>
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -258,7 +258,7 @@ const Contact: React.FC = () => {
                     name="segment"
                     value={formState.segment}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-900/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none appearance-none"
+                    className="w-full px-4 py-3 rounded-lg border border-white/10 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none appearance-none"
                 >
                     <option value="" disabled>Selecione uma opção</option>
                     <option value="Serviços">Prestação de Serviços</option>
@@ -278,7 +278,7 @@ const Contact: React.FC = () => {
                   required
                   value={formState.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-900/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none resize-none placeholder-slate-500"
+                  className="w-full px-4 py-3 rounded-lg border border-white/10 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none resize-none placeholder-slate-500"
                   placeholder="Gostaria de um site para..."
                 />
               </div>

@@ -31,9 +31,9 @@ const Benefits: React.FC = () => {
   ];
 
   return (
-    <section id="benefits" className="py-20 bg-navy-950 relative overflow-hidden">
-        {/* Glow effects */}
-        <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/20 blur-[100px] pointer-events-none"></div>
+    <section id="benefits" className="py-20 bg-navy-950 relative overflow-hidden border-t border-white/5">
+        {/* Glow effects - Positioned Right */}
+        <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-[500px] h-[500px] bg-cyan-900/10 blur-[100px] pointer-events-none translate-x-1/3"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
@@ -62,17 +62,17 @@ const Benefits: React.FC = () => {
           <div className="lg:w-1/2 w-full">
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-lg opacity-40 animate-pulse"></div>
-              <div className="relative bg-slate-900/80 backdrop-blur-xl p-8 rounded-2xl border border-white/10">
+              <div className="relative bg-navy-900/80 backdrop-blur-xl p-8 rounded-2xl border border-white/10">
                 <h3 className="text-2xl font-bold mb-6 text-white">Resultados reais</h3>
                 <div className="space-y-6">
-                    <div className="flex justify-between items-end border-b border-slate-700 pb-4">
+                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
                         <div>
                             <p className="text-slate-400 text-sm">Aumento de conversão médio</p>
                             <p className="text-3xl font-bold text-green-400">+150%</p>
                         </div>
                         <TrendingUp className="h-8 w-8 text-green-400" />
                     </div>
-                    <div className="flex justify-between items-end border-b border-slate-700 pb-4">
+                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
                         <div>
                             <p className="text-slate-400 text-sm">Velocidade de carregamento</p>
                             <p className="text-3xl font-bold text-blue-400">&lt; 2s</p>
