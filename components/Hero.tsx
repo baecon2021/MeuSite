@@ -13,10 +13,7 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-          <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]"></span>
-          <span className="text-xs font-medium text-slate-300 tracking-wide uppercase">Disponível para novos projetos</span>
-        </div>
+        {/* Availability Badge Removed */}
 
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-tight">
           Sites Profissionais, <br className="hidden md:block" />

@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Services from './components/Services';
-import Portfolio from './components/Portfolio';
-import Benefits from './components/Benefits';
-import AISection from './components/AISection';
-import About from './components/About';
-import Contact from './components/Contact';
 import WhatsAppBtn from './components/WhatsAppBtn';
 import Footer from './components/Footer';
+
+// Lazy load non-critical sections to improve initial load time
+const Services = React.lazy(() => import('./components/Services'));
+const Portfolio = React.lazy(() => import('./components/Portfolio'));
+const Benefits = React.lazy(() => import('./components/Benefits'));
+const AISection = React.lazy(() => import('./components/AISection'));
+const About = React.lazy(() => import('./components/About'));
+const Contact = React.lazy(() => import('./components/Contact'));
+
+// Lightweight loading placeholder
+const SectionLoader = () => (
+  <div className="py-24 flex justify-center items-center">
+    <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 const App: React.FC = () => {
   return (
@@ -20,12 +29,15 @@ const App: React.FC = () => {
         <Header />
         <main>
           <Hero />
-          <Services />
-          <Portfolio />
-          <Benefits />
-          <AISection />
-          <About />
-          <Contact />
+          {/* Suspense wrapper handles the loading state of lazy components */}
+          <Suspense fallback={<SectionLoader />}>
+            <Services />
+            <Portfolio />
+            <Benefits />
+            <AISection />
+            <About />
+            <Contact />
+          </Suspense>
         </main>
         <Footer />
         <WhatsAppBtn />

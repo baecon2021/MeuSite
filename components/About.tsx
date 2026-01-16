@@ -8,10 +8,13 @@ const About: React.FC = () => {
           <div className="w-full md:w-1/3 flex justify-center">
             <div className="relative w-64 h-64 md:w-80 md:h-80 group">
                 <div className="absolute inset-0 bg-blue-600 rounded-full blur-2xl opacity-20 animate-pulse group-hover:opacity-40 transition-opacity"></div>
-                {/* Avatar */}
+                {/* Fixed Avatar Path */}
                 <img 
-                    src="https://picsum.photos/seed/anthony/400/400" 
+                    src="components/images/profile.jpg"
                     alt="Anthony Velho" 
+                    width="320"
+                    height="320"
+                    loading="lazy"
                     className="relative w-full h-full object-cover rounded-full border-4 border-slate-800 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
                 />
             </div>
