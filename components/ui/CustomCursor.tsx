@@ -1,0 +1,157 @@
+import React, { useEffect, useRef } from 'react';
+
+const CustomCursor: React.FC = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const trailingRef = useRef<HTMLDivElement>(null);
+  
+  // Use refs for state to avoid React re-renders during animation loop
+  const isHovering = useRef(false);
+  const isVisible = useRef(false);
+  const mouse = useRef({ x: 0, y: 0 });
+  const trailing = useRef({ x: 0, y: 0 });
+  const cursor = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    // Disable on touch devices
+    if (typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
+    const cursorEl = cursorRef.current;
+    const trailingEl = trailingRef.current;
+    
+    // Toggle classes manually to avoid React render cycle overhead
+    const updateCursorStyle = () => {
+      if (!cursorEl || !trailingEl) return;
+
+      if (isVisible.current) {
+        cursorEl.style.opacity = isHovering.current ? '0' : '1';
+        trailingEl.style.opacity = '1';
+      } else {
+        cursorEl.style.opacity = '0';
+        trailingEl.style.opacity = '0';
+      }
+
+      if (isHovering.current) {
+        trailingEl.classList.add('is-hovering');
+        cursorEl.classList.add('is-hovering');
+      } else {
+        trailingEl.classList.remove('is-hovering');
+        cursorEl.classList.remove('is-hovering');
+      }
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
+
+      if (!isVisible.current) {
+        isVisible.current = true;
+        updateCursorStyle();
+      }
+    };
+    
+    const onMouseLeave = () => {
+      isVisible.current = false;
+      updateCursorStyle();
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Check for interactive elements
+      const isInteractive = 
+        target.matches('a, button, input, textarea, select, [role="button"]') ||
+        target.closest('a, button, input, textarea, select, [role="button"]');
+        
+      const newState = !!isInteractive;
+      
+      if (isHovering.current !== newState) {
+        isHovering.current = newState;
+        updateCursorStyle();
+      }
+    };
+
+    // Animation Loop
+    let animationFrameId: number;
+
+    const animate = () => {
+      // 1. Move the main dot instantly (or extremely fast lerp)
+      cursor.current.x += (mouse.current.x - cursor.current.x) * 0.9; 
+      cursor.current.y += (mouse.current.y - cursor.current.y) * 0.9;
+
+      // 2. Move the trailing ring with a faster lerp for responsiveness
+      // Increased from 0.15 to 0.25 for a snappier feel
+      trailing.current.x += (mouse.current.x - trailing.current.x) * 0.25;
+      trailing.current.y += (mouse.current.y - trailing.current.y) * 0.25;
+
+      if (cursorEl) {
+        cursorEl.style.transform = `translate3d(${cursor.current.x}px, ${cursor.current.y}px, 0)`;
+      }
+      
+      if (trailingEl) {
+        trailingEl.style.transform = `translate3d(${trailing.current.x}px, ${trailing.current.y}px, 0)`;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Initialize listeners
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseover', handleMouseOver);
+    
+    // Start loop
+    animate();
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      document.removeEventListener('mouseover', handleMouseOver);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <>
+      <style>{`
+        .cursor-ring {
+          width: 3rem; 
+          height: 3rem; 
+          background-color: transparent;
+          border: 1px solid rgba(59, 130, 246, 0.8); /* Vibrant Blue (blue-500) */
+          margin-left: -1.5rem; 
+          margin-top: -1.5rem; 
+        }
+        .cursor-ring.is-hovering {
+          width: 4rem; /* Adjusted: Only grows ~1rem (3rem -> 4rem) */
+          height: 4rem;
+          background-color: rgba(59, 130, 246, 0.1); 
+          border-color: rgba(96, 165, 250, 0.6); 
+          backdrop-filter: blur(2px);
+          margin-left: -2rem; /* Re-centered for 4rem size */
+          margin-top: -2rem;
+        }
+        /* Hardware acceleration hints */
+        .cursor-layer {
+          will-change: transform, width, height, background-color, border-color, opacity;
+          backface-visibility: hidden;
+        }
+      `}</style>
+
+      {/* Main pointer dot - Smaller size (w-1.5 h-1.5) */}
+      <div 
+        ref={cursorRef}
+        className="cursor-layer fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block transition-opacity duration-300"
+        style={{ marginLeft: '-3px', marginTop: '-3px' }}
+      />
+      
+      {/* Trailing ring */}
+      <div 
+        ref={trailingRef}
+        className="cursor-layer cursor-ring fixed top-0 left-0 rounded-full pointer-events-none z-[9998] transition-[width,height,background-color,border-color,margin] duration-300 ease-out hidden md:block"
+      />
+    </>
+  );
+};
+
+export default CustomCursor;

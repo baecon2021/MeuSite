@@ -26,25 +26,26 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-navy-950 relative">
+    <section id="services" className="py-16 lg:py-20 bg-navy-950 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Tudo o que você precisa para crescer online
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto px-4">
             Não é apenas um site. É uma ferramenta de vendas completa, moderna e preparada para o futuro.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Grid Responsivo: 1 col (mobile) -> 2 cols (tablet) -> 4 cols (desktop) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <div key={index} className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all duration-300 group">
-              <div className="bg-cyan-500/10 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div key={index} className="bg-white/5 backdrop-blur-sm p-6 lg:p-8 rounded-2xl border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all duration-300 group">
+              <div className="bg-cyan-500/10 w-14 h-14 lg:w-16 lg:h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
-              <p className="text-slate-400 leading-relaxed">
+              <h3 className="text-lg lg:text-xl font-bold text-white mb-3">{service.title}</h3>
+              <p className="text-slate-400 text-sm lg:text-base leading-relaxed">
                 {service.description}
               </p>
             </div>

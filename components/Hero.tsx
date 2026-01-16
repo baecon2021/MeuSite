@@ -1,54 +1,125 @@
-import React from 'react';
-import Button from './ui/Button';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
 
 const Hero: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const tabletContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Performance Check: Não executar animação de mouse em dispositivos touch/mobile
+    // Isso economiza muita bateria e evita lags na rolagem
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
+    let requestId: number;
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+    };
+
+    const animate = () => {
+      const ease = 0.05;
+      currentX += (mouseX - currentX) * ease;
+      currentY += (mouseY - currentY) * ease;
+
+      if (tabletContainerRef.current) {
+        const tiltX = currentX * 8; 
+        const tiltY = currentY * 8;
+        const moveX = currentX * 15;
+        const moveY = currentY * 15;
+
+        tabletContainerRef.current.style.transform = 
+          `perspective(1000px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) translateX(${moveX}px) translateY(${moveY}px)`;
+      }
+
+      requestId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    requestId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(requestId);
+    };
+  }, []);
+
   return (
-    <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-navy-950">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-600/20 blur-[120px]" />
-        <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-600/10 blur-[100px]" />
-        <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/10 blur-[120px] rounded-full" />
+    <section 
+      ref={containerRef}
+      className="relative pt-28 pb-16 lg:pt-0 overflow-hidden bg-navy-950 min-h-[90vh] lg:min-h-screen flex items-center justify-center"
+    >
+      {/* BACKGROUND OTIMIZADO */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:4rem_4rem] lg:bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-5"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[300px] lg:h-[400px] bg-blue-900/10 blur-[100px] lg:blur-[150px] rounded-full"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Availability Badge Removed */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-32">
+          
+          {/* TEXTO HERO */}
+          <div className="flex-1 text-center lg:text-left z-20 space-y-6 lg:space-y-8">
+            
+            <div className="inline-block animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <span className="py-1 px-3 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-[10px] md:text-xs font-semibold tracking-wider text-cyan-400 uppercase">
+                  Web Design & Intelligence
+                </span>
+            </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-tight">
-          Sites Profissionais, <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-gradient-x">
-            Rápidos e com IA Integrada.
-          </span>
-        </h1>
+            {/* Tipografia Escalável para Mobile */}
+            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-both delay-100">
+              <span className="text-white block">Experiências</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 block mt-1 pb-2">
+                Digitais Únicas.
+              </span>
+            </h1>
 
-        <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-slate-400 mb-10 leading-relaxed">
-          Eu crio sites que não apenas impressionam visualmente, mas convertem visitantes em clientes. 
-          Performance extrema, design futurista e automação inteligente por um custo acessível.
-        </p>
+            <div className="relative">
+              <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500 to-transparent"></div>
+              <p className="text-base sm:text-lg md:text-xl text-slate-400 leading-relaxed font-normal max-w-lg mx-auto lg:mx-0 lg:pl-8 animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-both delay-200">
+                A fusão perfeita entre estética minimalista e performance de ponta. Sites desenhados para marcas que exigem excelência.
+              </p>
+            </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <Button href="#contact" variant="glow" className="w-full sm:w-auto text-lg px-8">
-            Quero um site profissional <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-          <Button href="https://wa.me/554792491544" target="_blank" variant="outline" className="w-full sm:w-auto">
-            Falar no WhatsApp
-          </Button>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-y-4 gap-x-8 text-sm font-medium text-slate-400">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-cyan-500" />
-            <span>Otimizado para Vendas</span>
+            {/* Tags visuais */}
+            <div className="pt-4 lg:pt-6 flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-8 opacity-70 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                <div className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-slate-500">Design</div>
+                <div className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-slate-500">Performance</div>
+                <div className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-slate-500">AI Solutions</div>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-cyan-500" />
-            <span>Integração com IA</span>
+
+          {/* TABLET 3D */}
+          <div className="flex-1 w-full relative perspective-1000 flex justify-center items-center animate-in fade-in zoom-in-95 duration-1000 delay-300 mt-8 lg:mt-0">
+            <div 
+              ref={tabletContainerRef}
+              className="relative w-[85%] sm:w-[70%] lg:w-full max-w-[550px] z-20 flex justify-center will-change-transform transition-transform duration-300 lg:transition-none"
+            >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-blue-500/10 blur-[60px] lg:blur-[80px] rounded-full -z-10"></div>
+                
+                <img 
+                  src="https://peakstudio.com.br/assets/images/tablet.png" 
+                  alt="Interface Moderna" 
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                  width="550"
+                  height="750"
+                  // @ts-ignore
+                  fetchpriority="high"
+                  loading="eager"
+                  decoding="sync"
+                  style={{
+                    filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.5))"
+                  }}
+                />
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-cyan-500" />
-            <span>Suporte 24/7</span>
-          </div>
+
         </div>
       </div>
     </section>

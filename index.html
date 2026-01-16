@@ -4,7 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anthony Velho | Web Design & Soluções IA</title>
+    
+    <!-- SEO & Meta Tags -->
     <meta name="description" content="Criação de sites profissionais, modernos e integrados com IA. Aumente suas vendas com um site rápido e otimizado." />
+    <meta name="keywords" content="Web Design, Sites Rápidos, Landing Page, Inteligência Artificial, Anthony Velho, Desenvolvimento Web, SEO, Marketing Digital" />
+    <meta name="author" content="Anthony Velho" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://anthonyvelho.com.br/" />
+    <meta property="og:title" content="Anthony Velho | Sites Profissionais & IA" />
+    <meta property="og:description" content="Transforme sua presença digital com sites de alta performance e automação com IA." />
+    <meta property="og:image" content="https://peakstudio.com.br/assets/images/tablet.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://anthonyvelho.com.br/" />
+    <meta property="twitter:title" content="Anthony Velho | Web Design" />
+    <meta property="twitter:description" content="Sites rápidos e modernos integrados com Inteligência Artificial." />
+    <meta property="twitter:image" content="https://peakstudio.com.br/assets/images/tablet.png" />
+
+    <!-- Performance Optimization: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Preload Critical LCP Image (Otimização Vital para Carregamento) -->
+    <link rel="preload" as="image" href="https://peakstudio.com.br/assets/images/tablet.png" fetchpriority="high">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -24,6 +52,7 @@
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'], // Nova fonte para títulos
             },
             backgroundImage: {
               'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
@@ -32,13 +61,30 @@
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Adicionada fonte Outfit com pesos 300 (Light) a 800 (ExtraBold) para maior controle tipográfico -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
       body { 
         font-family: 'Inter', sans-serif; 
         background-color: #020617;
         color: #e2e8f0;
       }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Outfit', sans-serif;
+      }
+      
+      /* 
+         CORREÇÃO DE PISCADA DO CURSOR:
+         O uso do seletor universal (*) garante que o cursor nativo
+         permaneça oculto mesmo em divs, spans, imagens ou bordas de elementos.
+      */
+      @media (pointer: fine) {
+        html, body, * {
+          cursor: none !important;
+        }
+      }
+
       html { scroll-behavior: smooth; }
       
       /* Custom Scrollbar */

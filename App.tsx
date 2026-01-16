@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import WhatsAppBtn from './components/WhatsAppBtn';
 import Footer from './components/Footer';
+import CustomCursor from './components/ui/CustomCursor';
 
 // Lazy load non-critical sections to improve initial load time
 const Services = React.lazy(() => import('./components/Services'));
@@ -22,6 +23,8 @@ const SectionLoader = () => (
 const App: React.FC = () => {
   return (
     <div className="bg-navy-950 text-slate-300 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 min-h-screen relative">
+      <CustomCursor />
+      
       {/* Background Grid Effect */}
       <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
       
