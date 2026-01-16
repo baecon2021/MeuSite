@@ -6,6 +6,15 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    sourcemap: false
+    sourcemap: false,
+    minify: 'esbuild', // Minificação eficiente
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'lucide-react'], // Separa libs pesadas
+          'ui': ['./components/ui/Button', './components/ui/CustomCursor'], // Separa UI comum
+        }
+      }
+    }
   }
 })

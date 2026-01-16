@@ -3,48 +3,64 @@ import React, { useRef, useEffect, useState } from 'react';
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const tabletContainerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile for safety
   const [isInView, setIsInView] = useState(true);
 
+  // Check for mobile/reduced motion preference once on mount
   useEffect(() => {
-    // Observer to pause animation when not visible to save resources
+    const checkMobile = () => {
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setIsMobile(isTouch || prefersReducedMotion);
+    };
+    
+    checkMobile();
+    // Optional: Listen to resize if user rotates tablet/device
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Intersection Observer to stop logic when off-screen
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
     const observer = new IntersectionObserver(
       ([entry]) => setIsInView(entry.isIntersecting),
       { threshold: 0 }
     );
     
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
+    observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
 
+  // 3D Animation Logic - Only runs on Desktop & when in view
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches || !isInView) {
-      return;
-    }
+    if (isMobile || !isInView) return;
 
     let requestId: number;
-    let mouseX = 0;
-    let mouseY = 0;
     let currentX = 0;
     let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-      mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      // Normalize -1 to 1
+      targetX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      targetY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
     };
 
     const animate = () => {
+      // Smooth lerp
       const ease = 0.05;
-      currentX += (mouseX - currentX) * ease;
-      currentY += (mouseY - currentY) * ease;
+      currentX += (targetX - currentX) * ease;
+      currentY += (targetY - currentY) * ease;
 
       if (tabletContainerRef.current) {
-        const tiltX = currentX * 8; 
-        const tiltY = currentY * 8;
-        const moveX = currentX * 15;
-        const moveY = currentY * 15;
+        // Reduced movement range for subtle effect
+        const tiltX = currentX * 6; 
+        const tiltY = currentY * 6;
+        const moveX = currentX * 10;
+        const moveY = currentY * 10;
 
         tabletContainerRef.current.style.transform = 
           `perspective(1000px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) translateX(${moveX}px) translateY(${moveY}px)`;
@@ -60,12 +76,12 @@ const Hero: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(requestId);
     };
-  }, [isInView]);
+  }, [isMobile, isInView]);
 
   return (
     <section 
       ref={containerRef}
-      className="relative pt-28 pb-16 lg:pt-0 overflow-hidden bg-navy-950 min-h-[90vh] lg:min-h-screen flex items-center justify-center"
+      className="relative pt-28 pb-16 lg:pt-0 overflow-hidden bg-navy-950 min-h-[90vh] lg:min-h-screen flex items-center justify-center content-visibility-auto"
     >
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:4rem_4rem] lg:bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-5"></div>
@@ -76,9 +92,9 @@ const Hero: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-32">
           <div className="flex-1 text-center lg:text-left z-20 space-y-6 lg:space-y-8">
             <div className="inline-block animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <span className="py-1 px-3 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-[10px] md:text-xs font-semibold tracking-wider text-cyan-400 uppercase">
+                <h2 className="py-1 px-3 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-[10px] md:text-xs font-semibold tracking-wider text-cyan-400 uppercase">
                   Web Design & Intelligence
-                </span>
+                </h2>
             </div>
             <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-both delay-100">
               <span className="text-white block">Experiências</span>
@@ -105,16 +121,14 @@ const Hero: React.FC = () => {
               className="relative w-[85%] sm:w-[70%] lg:w-full max-w-[550px] z-20 flex justify-center lg:transition-none will-change-transform"
             >
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-blue-500/10 blur-[60px] lg:blur-[80px] rounded-full -z-10"></div>
+                {/* LCP Optimization: fetchpriority="high" and explicit dimensions */}
                 <img 
                   src="https://peakstudio.com.br/assets/images/tablet.png" 
-                  alt="Interface Moderna" 
+                  alt="Interface Moderna e Responsiva em Tablet" 
                   className="w-full h-auto object-contain drop-shadow-2xl"
                   width="550"
                   height="750"
-                  // @ts-ignore
-                  fetchpriority="high"
-                  loading="eager"
-                  decoding="sync"
+                  fetchPriority="high"
                   style={{ filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.5))" }}
                 />
             </div>

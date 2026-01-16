@@ -2,7 +2,7 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-20 lg:py-24 bg-navy-950 border-t border-white/5 relative">
+    <section id="about" className="py-20 lg:py-24 bg-navy-950 border-t border-white/5 relative content-visibility-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Container estilo "Caixa" */}
