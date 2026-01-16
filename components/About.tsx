@@ -38,7 +38,7 @@ const About: React.FC = () => {
                 
                 <div className="space-y-5 text-slate-300 text-base md:text-lg leading-relaxed">
                     <p>
-                        Olá! Me chamo Anthony, tenho 17 anos e sou especialista em criação de <strong className="text-cyan-400 font-medium">sites modernos, otimizados e de alta performance</strong>.
+                        Olá! Me chamo Anthony, e sou especialista em criação de <strong className="text-cyan-400 font-medium">sites modernos, otimizados e de alta performance</strong>.
                     </p>
                     <p>
                         Minha missão é simples: democratizar o acesso a sites de nível internacional para empreendedores e empresas que querem crescer. Não entrego apenas código; entrego uma ferramenta de negócios.
