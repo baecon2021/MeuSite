@@ -8,14 +8,14 @@ const About: React.FC = () => {
           <div className="w-full md:w-1/3 flex justify-center">
             <div className="relative w-64 h-64 md:w-80 md:h-80 group">
                 <div className="absolute inset-0 bg-blue-600 rounded-full blur-2xl opacity-20 animate-pulse group-hover:opacity-40 transition-opacity"></div>
-                {/* Fixed Avatar Path */}
+                {/* Referenciando a imagem diretamente pelo caminho público */}
                 <img 
-                    src="components/images/profile.jpg"
+                    src="/images/profile.jpg"
                     alt="Anthony Velho" 
                     width="320"
                     height="320"
                     loading="lazy"
-                    className="relative w-full h-full object-cover rounded-full border-4 border-slate-800 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+                    className="relative w-full h-full object-cover rounded-full border-4 border-slate-800 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500 bg-slate-800"
                 />
             </div>
           </div>
@@ -23,7 +23,7 @@ const About: React.FC = () => {
             <h2 className="text-3xl font-bold text-white mb-6">Quem é Anthony Velho?</h2>
             <div className="prose prose-lg text-slate-400">
                 <p className="mb-4">
-                    Olá! Sou especialista em criação de <strong className="text-cyan-400">sites modernos, otimizados e de alta performance</strong>.
+                    Olá! Me chamo Anthony, tenho 17 anos e sou especialista em criação de <strong className="text-cyan-400">sites modernos, otimizados e de alta performance</strong>.
                 </p>
                 <p className="mb-4">
                     Minha missão é simples: democratizar o acesso a sites de nível internacional para empreendedores e empresas que querem crescer. Não entrego apenas código; entrego uma ferramenta de negócios.

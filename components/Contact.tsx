@@ -82,14 +82,29 @@ const Contact: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    // Simulate submission
+
+    // Formatação da mensagem para o WhatsApp
+    // %0A é o código para quebra de linha em URLs
+    const text = `*Olá Anthony! Vim através do seu site.*%0A%0A` +
+      `*Nome:* ${formState.name}%0A` +
+      `*Email:* ${formState.email}%0A` +
+      `*WhatsApp:* ${formState.whatsapp}%0A` +
+      `*Segmento:* ${formState.segment || 'Não informado'}%0A%0A` +
+      `*Mensagem:*%0A${formState.message}`;
+
+    // Número do Anthony conforme configurações anteriores
+    const phoneNumber = "554792491544"; 
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+
+    // Simula um pequeno delay para feedback visual e redireciona
     setTimeout(() => {
-      alert("Obrigado pelo contato! Em breve Anthony entrará em contato com você.");
+      window.open(whatsappUrl, '_blank');
+      
       setIsSubmitting(false);
       setFormState({ name: '', email: '', whatsapp: '', segment: '', message: '' });
       setTouched({});
       setErrors({});
-    }, 1500);
+    }, 1000);
   };
 
   const getInputClass = (fieldName: string) => {
@@ -277,14 +292,14 @@ const Contact: React.FC = () => {
                 disabled={isSubmitting || !isFormValid()} 
                 className={`flex items-center justify-center gap-2 ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {isSubmitting ? 'Enviando...' : (
+                {isSubmitting ? 'Redirecionando...' : (
                     <>
                         Enviar Solicitação <Send className="h-4 w-4" />
                     </>
                 )}
               </Button>
               <p className="text-center text-xs text-slate-500 mt-4">
-                Seus dados estão seguros. Responderemos em até 24h.
+                Você será redirecionado para o WhatsApp para finalizar.
               </p>
             </form>
           </div>

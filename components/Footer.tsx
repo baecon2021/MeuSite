@@ -1,6 +1,21 @@
 import React from 'react';
 
 const Footer: React.FC = () => {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.querySelector(id);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <footer className="bg-navy-950 border-t border-white/5 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -8,9 +23,9 @@ const Footer: React.FC = () => {
           &copy; {new Date().getFullYear()} Anthony Velho. Todos os direitos reservados.
         </div>
         <div className="flex gap-6 text-sm text-slate-400">
-          <a href="#services" className="hover:text-cyan-400 transition-colors">Serviços</a>
-          <a href="#portfolio" className="hover:text-cyan-400 transition-colors">Portfólio</a>
-          <a href="#contact" className="hover:text-cyan-400 transition-colors">Contato</a>
+          <a href="#services" onClick={(e) => handleScroll(e, '#services')} className="hover:text-cyan-400 transition-colors">Serviços</a>
+          <a href="#portfolio" onClick={(e) => handleScroll(e, '#portfolio')} className="hover:text-cyan-400 transition-colors">Portfólio</a>
+          <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className="hover:text-cyan-400 transition-colors">Contato</a>
         </div>
       </div>
     </footer>

@@ -29,7 +29,37 @@ const Button: React.FC<ButtonProps> = ({
   const widthClass = fullWidth ? "w-full" : "";
   const combinedClasses = `${baseStyles} ${variants[variant]} ${widthClass} ${className}`;
 
+  // Função para interceptar cliques em links internos (ancoras)
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.querySelector(id);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   if (href) {
+    // Se for link interno (começa com #), usa o scroll manual
+    if (href.startsWith('#')) {
+        return (
+            <a 
+                href={href} 
+                onClick={(e) => handleScroll(e, href)}
+                className={combinedClasses}
+            >
+                {children}
+            </a>
+        );
+    }
+
+    // Se for link externo, mantém comportamento padrão
     return (
       <a href={href} target={target} rel={rel} className={combinedClasses}>
         {children}

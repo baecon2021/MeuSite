@@ -13,6 +13,29 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Função genérica para rolar suavemente para qualquer ID
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    setIsOpen(false); // Fecha o menu mobile se estiver aberto
+
+    if (targetId === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const element = document.querySelector(targetId);
+    if (element) {
+      const headerOffset = 80; // Compensação para o cabeçalho fixo
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const navLinks = [
     { name: 'Serviços', href: '#services' },
     { name: 'Portfólio', href: '#portfolio' },
@@ -25,7 +48,11 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="#" className="flex items-center gap-2 group">
+            <a 
+              href="#" 
+              onClick={(e) => handleNavClick(e, '#')} 
+              className="flex items-center gap-2 group"
+            >
               <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-1.5 rounded-lg group-hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all">
                 <Code2 className="h-6 w-6 text-white" />
               </div>
@@ -41,6 +68,7 @@ const Header: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors"
               >
                 {link.name}
@@ -48,6 +76,7 @@ const Header: React.FC = () => {
             ))}
             <a
               href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
               className="px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-white text-navy-950 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
             >
               Falar com Anthony
@@ -74,7 +103,7 @@ const Header: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="block px-3 py-3 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-white/5"
               >
                 {link.name}
@@ -82,7 +111,7 @@ const Header: React.FC = () => {
             ))}
             <a
               href="#contact"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => handleNavClick(e, '#contact')}
               className="block w-full text-center mt-4 px-5 py-3 rounded-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
             >
               Solicitar Orçamento
