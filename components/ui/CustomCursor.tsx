@@ -115,21 +115,21 @@ const CustomCursor: React.FC = () => {
     <>
       <style>{`
         .cursor-ring {
-          width: 3rem; 
-          height: 3rem; 
+          width: 3.5rem; 
+          height: 3.5rem; 
           background-color: transparent;
           border: 1px solid rgba(59, 130, 246, 0.8); /* Vibrant Blue (blue-500) */
-          margin-left: -1.5rem; 
-          margin-top: -1.5rem; 
+          margin-left: -1.75rem; 
+          margin-top: -1.75rem; 
         }
         .cursor-ring.is-hovering {
-          width: 4rem; /* Adjusted: Only grows ~1rem (3rem -> 4rem) */
-          height: 4rem;
+          width: 4.5rem;
+          height: 4.5rem;
           background-color: rgba(59, 130, 246, 0.1); 
           border-color: rgba(96, 165, 250, 0.6); 
           backdrop-filter: blur(2px);
-          margin-left: -2rem; /* Re-centered for 4rem size */
-          margin-top: -2rem;
+          margin-left: -2.25rem;
+          margin-top: -2.25rem;
         }
         /* Hardware acceleration hints */
         .cursor-layer {
@@ -138,11 +138,11 @@ const CustomCursor: React.FC = () => {
         }
       `}</style>
 
-      {/* Main pointer dot - Smaller size (w-1.5 h-1.5) */}
+      {/* Main pointer dot - Reduced size (w-1 h-1 which is 0.25rem/4px) */}
       <div 
         ref={cursorRef}
-        className="cursor-layer fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block transition-opacity duration-300"
-        style={{ marginLeft: '-3px', marginTop: '-3px' }}
+        className="cursor-layer fixed top-0 left-0 w-1 h-1 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block transition-opacity duration-300"
+        style={{ marginLeft: '-2px', marginTop: '-2px' }}
       />
       
       {/* Trailing ring */}
