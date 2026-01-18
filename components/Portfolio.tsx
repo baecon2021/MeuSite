@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { ExternalLink, Laptop, ArrowRight, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 
 interface Project {
   id: number;
