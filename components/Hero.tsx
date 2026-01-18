@@ -3,10 +3,9 @@ import React, { useRef, useEffect, useState } from 'react';
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const tabletContainerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile for safety
+  const [isMobile, setIsMobile] = useState(true); 
   const [isInView, setIsInView] = useState(true);
 
-  // Check for mobile/reduced motion preference once on mount
   useEffect(() => {
     const checkMobile = () => {
       const isTouch = window.matchMedia("(pointer: coarse)").matches;
@@ -15,12 +14,10 @@ const Hero: React.FC = () => {
     };
     
     checkMobile();
-    // Optional: Listen to resize if user rotates tablet/device
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Intersection Observer to stop logic when off-screen
   useEffect(() => {
     if (!containerRef.current) return;
     
@@ -33,7 +30,6 @@ const Hero: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // 3D Animation Logic - Only runs on Desktop & when in view
   useEffect(() => {
     if (isMobile || !isInView) return;
 
@@ -44,23 +40,21 @@ const Hero: React.FC = () => {
     let targetY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize -1 to 1
       targetX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
       targetY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
     };
 
     const animate = () => {
-      // Smooth lerp
       const ease = 0.05;
       currentX += (targetX - currentX) * ease;
       currentY += (targetY - currentY) * ease;
 
       if (tabletContainerRef.current) {
-        // Reduced movement range for subtle effect
-        const tiltX = currentX * 6; 
-        const tiltY = currentY * 6;
-        const moveX = currentX * 10;
-        const moveY = currentY * 10;
+        // Multiplicadores aumentados para uma movimentação mais nítida
+        const tiltX = currentX * 12; // De 6 para 12
+        const tiltY = currentY * 12; // De 6 para 12
+        const moveX = currentX * 25; // De 10 para 25
+        const moveY = currentY * 25; // De 10 para 25
 
         tabletContainerRef.current.style.transform = 
           `perspective(1000px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) translateX(${moveX}px) translateY(${moveY}px)`;
@@ -118,18 +112,16 @@ const Hero: React.FC = () => {
           <div className="flex-1 w-full relative perspective-1000 flex justify-center items-center animate-in fade-in zoom-in-95 duration-1000 delay-300 mt-8 lg:mt-0">
             <div 
               ref={tabletContainerRef}
-              className="relative w-[85%] sm:w-[70%] lg:w-full max-w-[550px] z-20 flex justify-center lg:transition-none will-change-transform"
+              className="relative w-[90%] sm:w-[80%] lg:w-full max-w-[600px] z-20 flex justify-center lg:transition-none will-change-transform"
             >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-blue-500/10 blur-[60px] lg:blur-[80px] rounded-full -z-10"></div>
-                {/* LCP Optimization: fetchpriority="high" and explicit dimensions */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/20 blur-[100px] lg:blur-[120px] rounded-full -z-10"></div>
                 <img 
-                  src="https://peakstudio.com.br/assets/images/tablet.png" 
-                  alt="Interface Moderna e Responsiva em Tablet" 
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                  width="550"
-                  height="750"
+                  src="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" 
+                  alt="Interface em Tablet" 
+                  className="w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+                  width="600"
+                  height="800"
                   fetchPriority="high"
-                  style={{ filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.5))" }}
                 />
             </div>
           </div>
