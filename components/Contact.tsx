@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Instagram, Phone, Send, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, Instagram, Phone, Send, CheckCircle2 } from 'lucide-react';
 import Button from './ui/Button';
 
 interface Errors {
