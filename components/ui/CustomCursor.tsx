@@ -4,15 +4,14 @@ const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const trailingRef = useRef<HTMLDivElement>(null);
   
-  // Use refs for state to avoid React re-renders during animation loop
   const isHovering = useRef(false);
   const isVisible = useRef(false);
+  const isInitialized = useRef(false); // Flag para capturar a primeira posição
   const mouse = useRef({ x: 0, y: 0 });
   const trailing = useRef({ x: 0, y: 0 });
   const cursor = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Disable on touch devices
     if (typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches) {
       return;
     }
@@ -20,7 +19,6 @@ const CustomCursor: React.FC = () => {
     const cursorEl = cursorRef.current;
     const trailingEl = trailingRef.current;
     
-    // Toggle classes manually to avoid React render cycle overhead
     const updateCursorStyle = () => {
       if (!cursorEl || !trailingEl) return;
 
@@ -45,6 +43,15 @@ const CustomCursor: React.FC = () => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
 
+      // Se é a primeira vez, sincroniza as posições imediatamente para evitar o "salto"
+      if (!isInitialized.current) {
+        cursor.current.x = e.clientX;
+        cursor.current.y = e.clientY;
+        trailing.current.x = e.clientX;
+        trailing.current.y = e.clientY;
+        isInitialized.current = true;
+      }
+
       if (!isVisible.current) {
         isVisible.current = true;
         updateCursorStyle();
@@ -58,7 +65,6 @@ const CustomCursor: React.FC = () => {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      // Check for interactive elements
       const isInteractive = 
         target.matches('a, button, input, textarea, select, [role="button"]') ||
         target.closest('a, button, input, textarea, select, [role="button"]');
@@ -71,16 +77,12 @@ const CustomCursor: React.FC = () => {
       }
     };
 
-    // Animation Loop
     let animationFrameId: number;
 
     const animate = () => {
-      // 1. Move the main dot instantly (or extremely fast lerp)
       cursor.current.x += (mouse.current.x - cursor.current.x) * 0.9; 
       cursor.current.y += (mouse.current.y - cursor.current.y) * 0.9;
 
-      // 2. Move the trailing ring with a faster lerp for responsiveness
-      // Increased from 0.15 to 0.25 for a snappier feel
       trailing.current.x += (mouse.current.x - trailing.current.x) * 0.25;
       trailing.current.y += (mouse.current.y - trailing.current.y) * 0.25;
 
@@ -95,12 +97,10 @@ const CustomCursor: React.FC = () => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Initialize listeners
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseover', handleMouseOver);
     
-    // Start loop
     animate();
 
     return () => {
@@ -118,34 +118,32 @@ const CustomCursor: React.FC = () => {
           width: 3.5rem; 
           height: 3.5rem; 
           background-color: transparent;
-          border: 1px solid rgba(59, 130, 246, 0.8); /* Vibrant Blue (blue-500) */
+          border: 1px solid rgba(59, 130, 246, 0.8);
           margin-left: -1.75rem; 
           margin-top: -1.75rem; 
+          opacity: 0;
         }
         .cursor-ring.is-hovering {
-          width: 4.5rem;
-          height: 4.5rem;
+          width: 4rem;
+          height: 4rem;
           background-color: rgba(59, 130, 246, 0.1); 
           border-color: rgba(96, 165, 250, 0.6); 
           backdrop-filter: blur(2px);
-          margin-left: -2.25rem;
-          margin-top: -2.25rem;
+          margin-left: -2rem;
+          margin-top: -2rem;
         }
-        /* Hardware acceleration hints */
         .cursor-layer {
           will-change: transform, width, height, background-color, border-color, opacity;
           backface-visibility: hidden;
         }
       `}</style>
 
-      {/* Main pointer dot - Reduced size (w-1 h-1 which is 0.25rem/4px) */}
       <div 
         ref={cursorRef}
-        className="cursor-layer fixed top-0 left-0 w-1 h-1 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block transition-opacity duration-300"
+        className="cursor-layer fixed top-0 left-0 w-1 h-1 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block transition-opacity duration-300 opacity-0"
         style={{ marginLeft: '-2px', marginTop: '-2px' }}
       />
       
-      {/* Trailing ring */}
       <div 
         ref={trailingRef}
         className="cursor-layer cursor-ring fixed top-0 left-0 rounded-full pointer-events-none z-[9998] transition-[width,height,background-color,border-color,margin] duration-300 ease-out hidden md:block"

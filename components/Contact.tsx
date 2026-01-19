@@ -22,17 +22,15 @@ const Contact: React.FC = () => {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Validation Logic
   const validateField = (name: string, value: string): string => {
     switch (name) {
       case 'name':
-        return value.trim().length < 3 ? 'Nome deve ter pelo menos 3 letras.' : '';
+        return value.trim().length < 3 ? 'Nome muito curto.' : '';
       case 'email':
-        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Por favor, insira um e-mail válido.' : '';
+        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'E-mail inválido.' : '';
       case 'whatsapp':
-        // Remove non-digits and check length (simple check for BR numbers)
         const cleanNumber = value.replace(/\D/g, '');
-        return cleanNumber.length < 10 ? 'Número inválido (mínimo 10 dígitos).' : '';
+        return cleanNumber.length < 10 ? 'Mínimo 10 dígitos.' : '';
       default:
         return '';
     }
@@ -41,8 +39,6 @@ const Contact: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
-    
-    // Real-time validation if field was already touched or just validate immediately
     if (touched[name] || value.length > 0) {
       setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     }
@@ -65,8 +61,6 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Final validation check
     const newErrors: Errors = {};
     Object.keys(formState).forEach(key => {
         if (key === 'name' || key === 'email' || key === 'whatsapp') {
@@ -82,8 +76,6 @@ const Contact: React.FC = () => {
     }
 
     setIsSubmitting(true);
-
-    // Formatação da mensagem para o WhatsApp
     const text = `*Olá Anthony! Vim através do seu site.*%0A%0A` +
       `*Nome:* ${formState.name}%0A` +
       `*Email:* ${formState.email}%0A` +
@@ -96,7 +88,6 @@ const Contact: React.FC = () => {
 
     setTimeout(() => {
       window.open(whatsappUrl, '_blank');
-      
       setIsSubmitting(false);
       setFormState({ name: '', email: '', whatsapp: '', segment: '', message: '' });
       setTouched({});
@@ -105,82 +96,81 @@ const Contact: React.FC = () => {
   };
 
   const getInputClass = (fieldName: string) => {
-    const base = "w-full px-4 py-3 rounded-lg border bg-navy-950/50 text-white placeholder-slate-500 focus:ring-2 transition-all outline-none appearance-none";
+    const base = "w-full px-4 py-2.5 rounded-lg border bg-navy-950/50 text-white placeholder-slate-600 focus:ring-2 transition-all outline-none appearance-none text-sm";
     if (touched[fieldName] && errors[fieldName]) {
-      return `${base} border-red-500/50 focus:border-red-500 focus:ring-red-500/20`;
+      return `${base} border-red-500/40 focus:border-red-500 focus:ring-red-500/10`;
     }
     if (touched[fieldName] && !errors[fieldName] && formState[fieldName as keyof typeof formState]) {
-      return `${base} border-green-500/50 focus:border-green-500 focus:ring-green-500/20`;
+      return `${base} border-green-500/40 focus:border-green-500 focus:ring-green-500/10`;
     }
-    return `${base} border-white/10 focus:border-cyan-500 focus:ring-cyan-500/20`;
+    return `${base} border-white/5 focus:border-cyan-500/50 focus:ring-cyan-500/10`;
   };
 
   return (
-    <section id="contact" className="py-16 lg:py-20 bg-navy-950 relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-navy-900 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-white/5">
+    <section id="contact" className="py-12 lg:py-20 bg-navy-950 relative border-t border-white/5">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="bg-navy-900 rounded-2xl md:rounded-[2rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-white/5">
           
-          {/* Contact Info Side */}
-          <div className="lg:w-5/12 bg-gradient-to-br from-navy-800 to-navy-900 p-8 md:p-12 text-white flex flex-col justify-between relative overflow-hidden order-2 lg:order-1">
-             {/* Decorative blob - Hidden on mobile for performance */}
-             <div className="hidden lg:block absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[80px] rounded-full"></div>
+          {/* Info Side */}
+          <div className="lg:w-5/12 bg-gradient-to-br from-navy-800 to-navy-900 p-8 md:p-10 text-white flex flex-col justify-between relative overflow-hidden order-2 lg:order-1">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 blur-[80px] rounded-full"></div>
 
             <div className="relative z-10">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Vamos criar algo incrível?</h2>
-              <p className="text-slate-400 mb-8 leading-relaxed text-sm md:text-base">
-                Não deixe para depois. Garanta seu site profissional antes de subir o preço. Condições especiais para novos projetos fechados este mês.
+              <h2 className="text-xl md:text-2xl font-bold mb-4">Vamos criar algo incrível?</h2>
+              <p className="text-slate-400 mb-8 leading-relaxed text-xs md:text-sm">
+                Não deixe para depois. Garanta seu site profissional antes de subir o preço. Condições especiais para novos projetos.
               </p>
               
-              <div className="space-y-4 md:space-y-6">
-                <a href="https://wa.me/554792491544" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
-                    <Phone className="h-6 w-6 text-cyan-400 group-hover:text-white" />
+              <div className="space-y-4">
+                <a href="https://wa.me/554792491544" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3.5 group">
+                  <div className="bg-navy-950 p-2.5 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
+                    <Phone className="h-5 w-5 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
-                    <span className="block text-xs text-slate-500 uppercase tracking-wider group-hover:text-cyan-300 transition-colors">WhatsApp</span>
-                    <span className="font-medium text-base md:text-lg">+55 47 9249-1544</span>
+                    <span className="block text-[10px] text-slate-500 uppercase tracking-widest group-hover:text-cyan-300 transition-colors">WhatsApp</span>
+                    <span className="font-medium text-sm md:text-base">+55 47 9249-1544</span>
                   </div>
                 </a>
 
-                <a href="mailto:anthonybanharavelho@gmail.com" className="flex items-center gap-4 group">
-                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
-                    <Mail className="h-6 w-6 text-cyan-400 group-hover:text-white" />
+                <a href="mailto:anthonybanharavelho@gmail.com" className="flex items-center gap-3.5 group">
+                  <div className="bg-navy-950 p-2.5 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
+                    <Mail className="h-5 w-5 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
-                    <span className="block text-xs text-slate-500 uppercase tracking-wider group-hover:text-cyan-300 transition-colors">E-mail</span>
-                    <span className="font-medium break-all text-sm md:text-base">anthonybanharavelho@gmail.com</span>
+                    <span className="block text-[10px] text-slate-500 uppercase tracking-widest group-hover:text-cyan-300 transition-colors">E-mail</span>
+                    <span className="font-medium text-xs md:text-sm">anthonybanharavelho@gmail.com</span>
                   </div>
                 </a>
 
-                <a href="https://instagram.com/tony_.xra" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                  <div className="bg-navy-950 p-3 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
-                    <Instagram className="h-6 w-6 text-cyan-400 group-hover:text-white" />
+                <a href="https://instagram.com/tony_.xra" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3.5 group">
+                  <div className="bg-navy-950 p-2.5 rounded-lg group-hover:bg-cyan-600 transition-colors border border-white/5">
+                    <Instagram className="h-5 w-5 text-cyan-400 group-hover:text-white" />
                   </div>
                   <div>
-                    <span className="block text-xs text-slate-500 uppercase tracking-wider group-hover:text-cyan-300 transition-colors">Instagram</span>
-                    <span className="font-medium text-base md:text-lg">@tony_.xra</span>
+                    <span className="block text-[10px] text-slate-500 uppercase tracking-widest group-hover:text-cyan-300 transition-colors">Instagram</span>
+                    <span className="font-medium text-sm md:text-base">@tony_.xra</span>
                   </div>
                 </a>
               </div>
             </div>
 
-            <div className="mt-8 md:mt-12 relative z-10">
-               <div className="p-4 bg-navy-950/50 rounded-xl border border-white/10 backdrop-blur-md">
-                  <p className="text-sm text-slate-300 italic">
-                    "A melhor decisão que tomei foi investir em um site profissional. O retorno foi imediato!"
+            <div className="mt-8 relative z-10">
+               <div className="p-3 bg-navy-950/40 rounded-xl border border-white/5 backdrop-blur-md">
+                  <p className="text-xs text-slate-400 italic">
+                    "O retorno foi imediato com o novo site!"
                   </p>
-                  <p className="text-xs text-cyan-500 mt-2 font-bold">- Cliente Satisfeito</p>
+                  <p className="text-[10px] text-cyan-500 mt-1.5 font-bold">- Cliente Satisfeito</p>
                </div>
             </div>
           </div>
 
           {/* Form Side */}
-          <div className="lg:w-7/12 p-8 md:p-12 bg-navy-900 order-1 lg:order-2">
-            <h3 className="text-2xl font-bold text-white mb-6">Solicite um orçamento gratuito</h3>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="lg:w-7/12 p-8 md:p-10 bg-navy-900 order-1 lg:order-2">
+            <h3 className="text-xl font-bold text-white mb-6">Solicite um orçamento</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2">Seu Nome</label>
+                  <label htmlFor="name" className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome</label>
                   <div className="relative">
                     <input
                         type="text"
@@ -193,17 +183,12 @@ const Contact: React.FC = () => {
                         placeholder="João Silva"
                     />
                     {touched.name && !errors.name && formState.name && (
-                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="absolute right-3 top-2.5 h-4 w-4 text-green-500" />
                     )}
                   </div>
-                  {touched.name && errors.name && (
-                      <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                          <AlertCircle className="h-3 w-3" /> {errors.name}
-                      </p>
-                  )}
                 </div>
                 <div>
-                  <label htmlFor="whatsapp" className="block text-sm font-medium text-slate-400 mb-2">WhatsApp</label>
+                  <label htmlFor="whatsapp" className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">WhatsApp</label>
                   <div className="relative">
                     <input
                         type="tel"
@@ -215,20 +200,12 @@ const Contact: React.FC = () => {
                         className={getInputClass('whatsapp')}
                         placeholder="(00) 00000-0000"
                     />
-                     {touched.whatsapp && !errors.whatsapp && formState.whatsapp && (
-                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-green-500" />
-                    )}
                   </div>
-                  {touched.whatsapp && errors.whatsapp && (
-                      <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                          <AlertCircle className="h-3 w-3" /> {errors.whatsapp}
-                      </p>
-                  )}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">E-mail Profissional</label>
+                <label htmlFor="email" className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">E-mail</label>
                 <div className="relative">
                     <input
                     type="email"
@@ -240,25 +217,17 @@ const Contact: React.FC = () => {
                     className={getInputClass('email')}
                     placeholder="seu@email.com"
                     />
-                    {touched.email && !errors.email && formState.email && (
-                        <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-green-500" />
-                    )}
                 </div>
-                 {touched.email && errors.email && (
-                      <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                          <AlertCircle className="h-3 w-3" /> {errors.email}
-                      </p>
-                  )}
               </div>
 
               <div>
-                <label htmlFor="segment" className="block text-sm font-medium text-slate-400 mb-2">Segmento do Negócio</label>
+                <label htmlFor="segment" className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Segmento</label>
                 <select
                     id="segment"
                     name="segment"
                     value={formState.segment}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-white/10 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none appearance-none"
+                    className="w-full px-4 py-2.5 rounded-lg border border-white/5 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-shadow outline-none text-sm appearance-none"
                 >
                     <option value="" disabled>Selecione uma opção</option>
                     <option value="Serviços">Prestação de Serviços</option>
@@ -270,15 +239,15 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2">Fale um pouco sobre o projeto</label>
+                <label htmlFor="message" className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Projeto</label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={4}
+                  rows={3}
                   required
                   value={formState.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-white/10 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-shadow outline-none resize-none placeholder-slate-500"
+                  className="w-full px-4 py-2.5 rounded-lg border border-white/5 bg-navy-950/50 text-white focus:ring-2 focus:ring-cyan-500/10 focus:border-cyan-500/50 transition-shadow outline-none resize-none placeholder-slate-600 text-sm"
                   placeholder="Gostaria de um site para..."
                 />
               </div>
@@ -287,11 +256,11 @@ const Contact: React.FC = () => {
                 type="submit" 
                 fullWidth 
                 disabled={isSubmitting || !isFormValid()} 
-                className={`flex items-center justify-center gap-2 ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`flex items-center justify-center gap-2 py-3 !text-sm ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isSubmitting ? 'Redirecionando...' : (
                     <>
-                        Enviar Solicitação <Send className="h-4 w-4" />
+                        Solicitar Orçamento <Send className="h-4 w-4" />
                     </>
                 )}
               </Button>
