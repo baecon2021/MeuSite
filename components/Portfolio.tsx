@@ -7,17 +7,19 @@ const Portfolio: React.FC = () => {
     <section id="portfolio" className="py-24 md:py-32 bg-background border-t border-line overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
-        {/* Header Section */}
+        {/* Header Section - Ajustado para alinhar à direita no mobile */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-8">
-            <Reveal>
-                <span className="font-serif italic text-xl text-secondary/60 mb-4 block">Arquivo Visual</span>
-                <h2 className="text-4xl md:text-6xl font-light text-primary tracking-tighter">
-                    Estudos de <br/> <span className="font-medium">Caso</span>
-                </h2>
+            <Reveal width="100%">
+                <div className="text-right md:text-left w-full">
+                  <span className="font-serif italic text-xl text-secondary/60 mb-4 block">Arquivo Visual</span>
+                  <h2 className="text-4xl md:text-6xl font-light text-primary tracking-tighter">
+                      Estudos de <br/> <span className="font-medium">Caso</span>
+                  </h2>
+                </div>
             </Reveal>
             
-            <Reveal delay={0.2} variant="slide">
-                <div className="max-w-xs text-right md:text-left">
+            <Reveal delay={0.2} variant="slide" width="100%">
+                <div className="max-w-xs ml-auto md:ml-0 text-right md:text-left">
                     <p className="text-secondary text-sm font-light leading-relaxed">
                         A verdadeira profundidade do meu trabalho vive nos detalhes. Mergulhe nos processos, grids e decisões estratégicas.
                     </p>

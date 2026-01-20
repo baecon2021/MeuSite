@@ -3,6 +3,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html { 
+    scroll-behavior: smooth; 
+  }
+  body { 
+    @apply bg-background text-secondary font-sans antialiased overflow-x-hidden; 
+  }
+  h1, h2, h3, h4, h5, h6 { 
+    @apply font-display text-primary tracking-tight; 
+  }
+}
+
+/* Estilos de Cursor Customizado */
+@media (pointer: fine) {
+  .custom-cursor-active, .custom-cursor-active * { 
+    cursor: none !important; 
+  }
+}
+
 /* Estilos de Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -19,6 +38,10 @@
 }
 
 /* Utilitários extras */
+.bg-grain { 
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg'); 
+}
+
 .content-visibility-auto {
   content-visibility: auto;
   contain-intrinsic-size: 1px 1000px;

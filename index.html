@@ -45,12 +45,6 @@
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://anthonyvelho.com.br/" />
     
-    <!-- Geo Tags -->
-    <meta name="geo.region" content="BR-SC" />
-    <meta name="geo.placename" content="Santa Catarina" />
-    <meta name="geo.position" content="-26.91;-49.07" />
-    <meta name="ICBM" content="-26.91, -49.07" />
-    
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -87,27 +81,17 @@
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1"
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom": "https://esm.sh/react-dom@18.2.0",
+    "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0",
+    "lottie-react": "https://esm.sh/lottie-react@2.4.0?external=react",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
-
-    <style type="text/tailwindcss">
-      @layer base {
-        html { scroll-behavior: smooth; }
-        body { @apply bg-background text-secondary font-sans antialiased overflow-x-hidden; }
-        h1, h2, h3, h4, h5, h6 { @apply font-display text-primary tracking-tight; }
-      }
-      @media (pointer: fine) {
-        .custom-cursor-active, .custom-cursor-active * { cursor: none !important; }
-      }
-      .bg-grain { background-image: url('https://grainy-gradients.vercel.app/noise.svg'); }
-    </style>
   </head>
   <body>
     <div id="root"></div>

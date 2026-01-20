@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -12,77 +12,54 @@ const Reveal: React.FC<RevealProps> = ({
   children, 
   width = "fit-content", 
   delay = 0, 
-  duration = 1.0, 
+  duration = 0.8, 
   variant = "blur" 
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
+      // Usando flag para evitar múltiplos re-renders se já estiver visível
       if (entry.isIntersecting) {
         setIsVisible(true);
-        
-        const totalTime = (duration * 1000) + (delay * 1000) + 100;
-        const timer = setTimeout(() => {
-            setIsAnimationComplete(true);
-        }, totalTime);
-        
-        return () => clearTimeout(timer);
+        // Opcional: desconectar após a primeira vez para performance extrema
+        // observer.disconnect(); 
+      } else {
+        setIsVisible(false);
       }
     }, { 
-        threshold: 0.2, 
-        rootMargin: "0px 0px -50px 0px" 
+        threshold: 0.05,
+        rootMargin: "0px"
     });
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    const el = ref.current;
+    if (el) observer.observe(el);
 
     return () => {
-      if (ref.current) observer.disconnect();
+      if (el) observer.unobserve(el);
     };
-  }, [delay, duration]);
+  }, []);
 
-  const getTransform = () => {
-    if (!isVisible) {
-      if (variant === "slide") return "translateY(100px)"; 
-      if (variant === "blur") return "translateY(40px) scale(0.95)";
-      return "none";
-    }
-    return "translateY(0) scale(1)";
-  };
-
-  const getOpacity = () => (isVisible ? 1 : 0);
-  const getFilter = () => {
-    if (variant === "blur") return isVisible ? "blur(0px)" : "blur(12px)";
-    return "none";
+  const styles = {
+    transform: !isVisible 
+      ? (variant === "slide" ? "translateY(20px)" : variant === "blur" ? "translateY(10px) scale(0.99)" : "none") 
+      : "translateY(0) scale(1)",
+    opacity: isVisible ? 1 : 0,
+    filter: variant === "blur" ? (isVisible ? "blur(0px)" : "blur(8px)") : "none",
+    transition: `transform ${duration}s cubic-bezier(0.2, 0, 0, 1) ${delay}s, 
+                 opacity ${duration}s cubic-bezier(0.2, 0, 0, 1) ${delay}s, 
+                 filter ${duration}s cubic-bezier(0.2, 0, 0, 1) ${delay}s`,
+    willChange: isVisible ? "auto" : "transform, opacity, filter"
   };
 
   return (
-    <div 
-        ref={ref} 
-        style={{ 
-            width, 
-            position: "relative", 
-            overflow: isAnimationComplete ? "visible" : "hidden" 
-        }}
-    >
-      <div
-        style={{
-          transform: getTransform(),
-          opacity: getOpacity(),
-          filter: getFilter(),
-          transition: `transform ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s, opacity ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s, filter ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s`,
-          // PERFORMANCE: Remove will-change após a animação para economizar memória
-          willChange: isAnimationComplete ? "auto" : "transform, opacity, filter"
-        }}
-      >
+    <div ref={ref} style={{ width, position: "relative" }}>
+      <div style={styles}>
         {children}
       </div>
     </div>
   );
 };
 
-export default Reveal;
+export default memo(Reveal);

@@ -28,11 +28,11 @@ const App: React.FC = () => {
       {/* Componentes Globais de UI */}
       <CustomCursor />
       
-      {/* Grain Overlay - Performance otimizada: translate-z-0 força GPU layer, evitando repaints da página toda */}
+      {/* Grain Overlay */}
       <div className="fixed inset-0 bg-grain opacity-[0.03] pointer-events-none z-0 mix-blend-multiply transform-gpu translate-z-0"></div>
       
-      {/* Main Wrapper */}
-      <div className={`relative z-10 transition-opacity duration-1000 w-full overflow-x-hidden ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Main Wrapper - Removida a transição de opacidade aqui para o Hero cuidar do seu próprio reveal de forma mais imersiva */}
+      <div className={`relative z-10 w-full overflow-x-hidden ${isLoading ? 'hidden' : 'block'}`}>
         <Header />
         <main>
           <Hero />
