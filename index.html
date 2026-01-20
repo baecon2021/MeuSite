@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#F2F2F0" />
     
     <title>Anthony Velho | Web Design & Soluções IA</title>
     <meta name="description" content="Criação de sites profissionais, modernos e integrados com IA. Aumente suas vendas com um site rápido e otimizado para celular." />
@@ -25,15 +25,15 @@
     <meta property="twitter:description" content="Sites rápidos e modernos integrados com Inteligência Artificial." />
     <meta property="twitter:image" content="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" />
     
-    <!-- Fonts - Preconnect for speed -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
-    <!-- LCP Optimization: Preload the main Hero image -->
+    <!-- LCP Optimization -->
     <link rel="preload" as="image" href="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" fetchpriority="high">
     
-    <!-- Tailwind CDN (Otimizado para Preview) -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -41,22 +41,27 @@
         theme: {
           extend: {
             colors: {
-              navy: { 950: '#020617', 900: '#0f172a', 800: '#1e293b' },
-              primary: { DEFAULT: '#3b82f6', glow: '#60a5fa' }
+              background: '#F2F2F0',
+              surface: '#FFFFFF',
+              primary: '#0A0A0A',
+              secondary: '#525252',
+              accent: '#A3A3A3',
+              line: '#E5E5E5',
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               display: ['Outfit', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
             },
             backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
+              'grid-pattern': "linear-gradient(to right, #E5E5E5 1px, transparent 1px), linear-gradient(to bottom, #E5E5E5 1px, transparent 1px)",
             }
           }
         }
       }
     </script>
 
-    <!-- Importmap Otimizado: Removidas entradas duplicadas/mortas -->
+    <!-- Importmap Otimizado -->
     <script type="importmap">
 {
   "imports": {

@@ -7,48 +7,49 @@ import Loader from './components/ui/Loader';
 
 // Lazy load non-critical sections
 const Services = React.lazy(() => import('./components/Services'));
-const Portfolio = React.lazy(() => import('./components/Portfolio'));
-const Benefits = React.lazy(() => import('./components/Benefits'));
 const AISection = React.lazy(() => import('./components/AISection'));
+const Portfolio = React.lazy(() => import('./components/Portfolio'));
+const Importance = React.lazy(() => import('./components/Importance'));
 const About = React.lazy(() => import('./components/About'));
 const Contact = React.lazy(() => import('./components/Contact'));
 
 const SectionLoader = () => (
   <div className="py-24 flex justify-center items-center">
-    <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
   </div>
 );
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Forçar o scroll para o topo no recarregamento para evitar saltos
   useEffect(() => {
-    if (!isLoading) {
-      window.scrollTo(0, 0);
+    // Scroll to top on refresh
+    if (isLoading) {
+       window.scrollTo(0, 0);
     }
   }, [isLoading]);
 
   return (
-    <div className="bg-navy-950 text-slate-300 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 min-h-screen relative">
+    <div className="bg-background text-secondary min-h-screen relative selection:bg-primary selection:text-white font-sans antialiased">
       {isLoading && <Loader onComplete={() => setIsLoading(false)} />}
       
+      {/* Componentes Globais de UI */}
       <CustomCursor />
       
-      {/* Background Grid Effect */}
-      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
+      {/* Grain Overlay - Performance otimizada com pointer-events-none */}
+      <div className="fixed inset-0 bg-grain opacity-[0.03] pointer-events-none z-0 mix-blend-multiply will-change-transform"></div>
       
-      <div className={`relative z-10 transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Main Wrapper */}
+      <div className={`relative z-10 transition-opacity duration-1000 w-full overflow-x-hidden ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
         <Header />
         <main>
-          {/* Só renderiza o Hero se não estiver carregando para garantir o início das animações no tempo certo */}
           {!isLoading && <Hero />}
           
           <Suspense fallback={<SectionLoader />}>
+            <Importance />
             <Services />
-            <Portfolio />
-            <Benefits />
             <AISection />
+            <Portfolio />
             <About />
             <Contact />
           </Suspense>

@@ -1,59 +1,54 @@
 import React from 'react';
+import Reveal from './ui/Reveal';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-16 lg:py-24 bg-navy-950 border-t border-white/5 relative content-visibility-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="bg-navy-900 rounded-2xl md:rounded-3xl p-8 md:p-10 lg:p-14 border border-white/10 shadow-2xl relative overflow-hidden">
+    <section id="about" className="py-32 bg-background border-t border-line">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex flex-col md:flex-row gap-12 lg:gap-24 items-center">
             
-            <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-600/5 blur-[60px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
-
-            <div className="flex flex-col md:flex-row items-center gap-10 md:gap-12 relative z-10">
+            <div className="w-full md:w-1/3 order-2 md:order-1">
+                <Reveal variant="blur">
+                    <div className="aspect-[3/4] bg-neutral-200 overflow-hidden relative group">
+                        <img 
+                            src="https://lh3.googleusercontent.com/d/1B_lFIE4L-vBrX6Yqqi7BiIhOCgJtxJMu"
+                            alt="Anthony Velho" 
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale hover:grayscale-0"
+                            loading="lazy"
+                        />
+                        <div className="absolute inset-0 border border-black/5 pointer-events-none"></div>
+                    </div>
+                </Reveal>
+            </div>
             
-            <div className="w-full md:w-1/3 flex justify-center">
-                <div className="relative w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 group">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-20 animate-pulse group-hover:opacity-40 transition-opacity duration-700"></div>
+            <div className="w-full md:w-2/3 order-1 md:order-2">
+                <Reveal delay={0.2} variant="slide">
+                    <span className="font-serif italic text-2xl text-secondary mb-2 block">O Criador</span>
+                    <h2 className="text-4xl md:text-6xl font-light text-primary mb-8 tracking-tighter">Anthony Velho.</h2>
                     
-                    <img 
-                        src="https://lh3.googleusercontent.com/d/1B_lFIE4L-vBrX6Yqqi7BiIhOCgJtxJMu"
-                        alt="Anthony Velho - Especialista em Web Design" 
-                        width="300"
-                        height="300"
-                        loading="lazy"
-                        decoding="async"
-                        className="relative w-full h-full object-cover rounded-full border-4 border-navy-900 shadow-2xl transition-all duration-500"
-                    />
-                </div>
-            </div>
-            
-            <div className="w-full md:w-2/3 text-center md:text-left">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Quem é Anthony Velho?</h2>
-                
-                <div className="space-y-4 text-slate-300 text-sm md:text-base leading-relaxed">
-                    <p>
-                        Olá! Me chamo Anthony, e sou especialista em criação de <strong className="text-cyan-400 font-medium">sites modernos, otimizados e de alta performance</strong>.
-                    </p>
-                    <p>
-                        Minha missão é simples: democratizar o acesso a sites de nível internacional para empreendedores e empresas que querem crescer. Não entrego apenas código; entrego uma ferramenta de negócios.
-                    </p>
-                    <p>
-                        Com foco total em design limpo (clean aesthetic) e integração com as tecnologias mais recentes de Inteligência Artificial, garanto que seu projeto não será apenas "mais um site", mas sim o seu melhor vendedor.
-                    </p>
-                </div>
+                    <div className="space-y-6 text-secondary text-lg font-light leading-relaxed max-w-xl">
+                        <p>
+                            A internet está cheia de promessas vazias e templates prontos. Eu escolho o caminho oposto: <span className="italic font-serif text-primary">artesanato digital</span>.
+                        </p>
+                        <p>
+                             Não sou apenas um programador. Sou um parceiro estratégico que entende que cada pixel na tela deve ter um propósito: <strong>fazer seu negócio crescer</strong>.
+                        </p>
+                        <p>
+                            Elimino o ruído, simplifico a jornada do usuário e entrego uma ferramenta poderosa que coloca sua marca em um patamar de excelência inquestionável.
+                        </p>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-6 mt-8 border-t border-white/10 pt-6 max-w-sm mx-auto md:mx-0">
-                    <div className="border-l-4 border-blue-500 pl-4 text-left">
-                        <span className="block font-bold text-white text-xl md:text-2xl mb-0.5">100%</span>
-                        <span className="text-[10px] md:text-xs text-slate-400 uppercase tracking-wide">Compromisso com prazo</span>
+                    <div className="flex gap-16 mt-12 pt-12 border-t border-line">
+                        <div>
+                            <span className="block text-4xl font-light text-primary tracking-tighter">100%</span>
+                            <span className="text-xs uppercase tracking-[0.2em] text-secondary mt-1 block">Compromisso</span>
+                        </div>
+                        <div>
+                            <span className="block text-4xl font-light text-primary tracking-tighter">Global</span>
+                            <span className="text-xs uppercase tracking-[0.2em] text-secondary mt-1 block">Padrão</span>
+                        </div>
                     </div>
-                    <div className="border-l-4 border-green-500 pl-4 text-left">
-                        <span className="block font-bold text-white text-xl md:text-2xl mb-0.5">24/7</span>
-                        <span className="text-[10px] md:text-xs text-slate-400 uppercase tracking-wide">Seu site vendendo</span>
-                    </div>
-                </div>
-            </div>
+                </Reveal>
             </div>
         </div>
       </div>

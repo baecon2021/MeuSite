@@ -10,15 +10,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: { 950: '#020617', 900: '#0f172a', 800: '#1e293b' },
-        primary: { DEFAULT: '#3b82f6', glow: '#60a5fa' }
+        background: '#F2F2F0', // Vintage White / Paper
+        surface: '#FFFFFF',
+        primary: '#0A0A0A', // Tinta Preta
+        secondary: '#525252', // Cinza Neutro
+        accent: '#A3A3A3', // Prata
+        line: '#E5E5E5', // Linhas sutis
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         display: ['Outfit', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
       },
       backgroundImage: {
-        'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
+        'grain': "url('https://grainy-gradients.vercel.app/noise.svg')",
       }
     }
   },
