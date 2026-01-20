@@ -1,42 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    /* Ativa rolagem suave nativa para links âncora */
-    scroll-behavior: smooth;
-  }
-
-  body {
-    @apply bg-background text-secondary font-sans antialiased;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Garante comportamento padrão de scroll */
-    overflow-x: hidden;
-    overflow-y: auto;
-    width: 100%;
-    min-height: 100vh;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-primary tracking-tight;
-  }
-  h1 {
-    @apply font-light; 
-  }
-  p {
-    @apply font-light tracking-wide;
-  }
-}
-
-.content-visibility-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 1000px;
-}
-
-/* Custom Scrollbar Minimalista */
+/* Estilos de Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -51,9 +18,8 @@
   background: #525252;
 }
 
-/* Hide cursor only on fine pointers */
-@media (pointer: fine) {
-  html, body, * {
-    cursor: none !important;
-  }
+/* Utilitários extras */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
 }

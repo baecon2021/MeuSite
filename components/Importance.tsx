@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Globe2, TrendingUp, Lock, ScanEye, Lightbulb, LightbulbOff } from 'lucide-react';
 
@@ -10,14 +11,12 @@ const Importance: React.FC = () => {
   const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Check de dispositivo (Pointer Coarse = Touch OU Largura < 1024px)
     const checkMobile = () => {
         setIsMobile(window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Se for mobile, não adicione listeners de mouse pesados
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const handleWindowMouseMove = (e: MouseEvent) => {
@@ -59,12 +58,9 @@ const Importance: React.FC = () => {
 
   const toggleLight = () => setIsLightOn(!isLightOn);
 
-  // Layout de Conteúdo
   const ContentLayer = ({ isLit = false }: { isLit?: boolean }) => (
     <div className={`max-w-7xl mx-auto px-6 lg:px-12 w-full flex flex-col justify-center transition-colors duration-700 ${isLit ? 'text-white' : 'text-primary'}`}>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-        
-        {/* Lado Esquerdo */}
         <div className="lg:sticky lg:top-28">
             <span className={`font-serif italic text-xl mb-3 block transition-colors duration-500 ${isLit ? 'text-neutral-400' : 'text-secondary/60'}`}>
                 A Realidade Digital
@@ -79,7 +75,6 @@ const Importance: React.FC = () => {
             </p>
         </div>
         
-        {/* Lado Direito */}
         <div className="grid gap-12 mt-4 lg:mt-0 lg:pt-8">
           {[
             {
@@ -99,7 +94,7 @@ const Importance: React.FC = () => {
             }
           ].map((point, idx) => (
              <div key={idx} className="flex gap-6 items-start group">
-                <div className={`mt-1 p-0 transition-all duration-500 ${isLit ? 'text-white scale-110' : 'text-primary scale-100 group-hover:scale-110'}`}>
+                <div className={`mt-1 transition-all duration-500 ${isLit ? 'text-white scale-110' : 'text-primary scale-100 group-hover:scale-110'}`}>
                   {point.icon}
                 </div>
                 <div>
@@ -117,32 +112,28 @@ const Importance: React.FC = () => {
     </div>
   );
 
-  // RENDERIZAÇÃO MOBILE OTIMIZADA (Sem Flashlight, Layout Relativo Simples)
   if (isMobile) {
     return (
-        <section id="importance" className="relative min-h-screen py-24 bg-background border-t border-line flex flex-col justify-center">
+        <section id="importance" className="relative py-24 bg-background border-t border-line">
             <ContentLayer isLit={false} />
         </section>
     );
   }
 
-  // RENDERIZAÇÃO DESKTOP (Com Flashlight Effect e Proteção de Overflow)
   return (
     <section 
         id="importance" 
         ref={sectionRef}
-        className={`relative min-h-screen py-24 group transition-colors duration-1000 flex flex-col justify-center ${isLightOn ? 'bg-background cursor-auto' : 'bg-black cursor-none'}`}
+        className={`relative min-h-screen py-24 group transition-colors duration-1000 flex flex-col justify-center overflow-hidden ${isLightOn ? 'bg-background' : 'bg-black'}`}
     >
-        {/* Button Toggle */}
         <div className="absolute top-8 right-6 lg:right-12 z-[60]">
              <button 
                 onClick={toggleLight}
                 className={`p-3 rounded-full border transition-all duration-500 flex items-center gap-2 group/btn 
                   ${isLightOn 
-                    ? 'bg-primary text-white border-primary shadow-lg shadow-neutral-300' 
+                    ? 'bg-primary text-white border-primary shadow-lg' 
                     : 'bg-transparent text-white border-white/20 hover:bg-white/10'
                   }`}
-                aria-label={isLightOn ? "Apagar luz" : "Acender luz"}
              >
                 {isLightOn ? <LightbulbOff className="w-5 h-5" /> : <Lightbulb className="w-5 h-5" />}
                 <span className={`text-sm font-medium pr-1 overflow-hidden transition-all duration-300 ${isLightOn ? 'max-w-[100px] opacity-100' : 'max-w-0 opacity-0 group-hover/btn:max-w-[100px] group-hover/btn:opacity-100'}`}>
@@ -151,61 +142,23 @@ const Importance: React.FC = () => {
              </button>
         </div>
 
-        {/* Cover com Instrução */}
-        <div className={`absolute inset-0 z-50 pointer-events-none flex items-center justify-center transition-opacity duration-700 ease-in-out ${(isHovering || isLightOn) ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="flex flex-col items-center gap-6 animate-pulse">
-                <div className="p-4 rounded-full border border-white/20 bg-white/5">
-                    <ScanEye className="w-8 h-8 text-white/80" />
-                </div>
-                <p className="text-white/60 font-light tracking-[0.2em] text-sm uppercase">
-                    Passe o mouse
-                </p>
+        <div className={`absolute inset-0 z-50 pointer-events-none flex items-center justify-center transition-opacity duration-700 ${(isHovering || isLightOn) ? 'opacity-0' : 'opacity-100'}`}>
+            <div className="flex flex-col items-center gap-4">
+                <ScanEye className="w-8 h-8 text-white/40" />
+                <p className="text-white/40 font-light tracking-[0.2em] text-xs uppercase">Passe o mouse para iluminar</p>
             </div>
         </div>
 
-        {/* Efeito de Luz CSS Var */}
+        {/* Efeito de Lanterna */}
         <div 
-            className="pointer-events-none fixed w-[600px] h-[600px] rounded-full bg-white/5 blur-[80px] z-0 mix-blend-overlay transition-opacity duration-300 will-change-transform"
-            style={{ 
-                left: 'var(--x)', 
-                top: 'var(--y)', 
-                transform: 'translate(-50%, -50%)',
-                opacity: (isHovering && !isLightOn) ? 1 : 0
-            }}
-        />
-        <div 
-            className="pointer-events-none absolute w-12 h-12 rounded-full border border-white/30 z-50 transition-opacity duration-300 hidden lg:block will-change-transform"
-            style={{ 
-                left: 'var(--x)', 
-                top: 'var(--y)', 
-                transform: 'translate(-50%, -50%)',
-                opacity: (isHovering && !isLightOn) ? 1 : 0
-            }}
-        />
-
-        {/* CAMADA ESCURA (FANTASMA) - Fundo "Desligado" */}
-        {/* CORREÇÃO: Usar isLit={true} com baixa opacidade para garantir contraste no fundo preto. */}
-        <div className={`relative z-10 transition-all duration-500 pointer-events-none ${isLightOn ? 'opacity-0' : 'opacity-[0.15]'}`}>
-            <ContentLayer isLit={true} />
-        </div>
-
-        {/* CAMADA CLARA (REVEAL) - Fundo "Ligado" / Lanterna */}
-        <div 
-            className="absolute inset-0 z-20 pointer-events-none will-change-[mask-image] flex flex-col justify-center"
+            className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
             style={{
-                maskImage: isLightOn 
-                    ? 'none' 
-                    : (isHovering 
-                        ? `radial-gradient(circle 300px at var(--x) var(--y), black 10%, transparent 100%)`
-                        : 'none'),
-                WebkitMaskImage: isLightOn 
-                    ? 'none' 
-                    : (isHovering 
-                        ? `radial-gradient(circle 300px at var(--x) var(--y), black 10%, transparent 100%)`
-                        : 'transparent'),
-                opacity: (isHovering || isLightOn) ? 1 : 0
+                background: isLightOn ? 'transparent' : (isHovering ? `radial-gradient(circle 250px at var(--x) var(--y), transparent 0%, rgba(0,0,0,0.95) 100%)` : 'black'),
+                opacity: 1
             }}
-        >
+        />
+
+        <div className="relative z-10">
             <ContentLayer isLit={!isLightOn} />
         </div>
     </section>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const Header: React.FC = () => {
@@ -7,8 +7,14 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const isScrolled = window.scrollY > 20;
+      // React 18+ faz batching automático, mas evitar a chamada do setter se o valor não mudou ajuda na lógica
+      setScrolled((prev) => {
+        if (prev !== isScrolled) return isScrolled;
+        return prev;
+      });
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -37,7 +43,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-background/90 backdrop-blur-sm border-b border-line py-4' : 'bg-transparent py-6'}`}>
+    <header className={`fixed w-full z-50 transition-all duration-500 will-change-transform ${scrolled ? 'bg-background/90 backdrop-blur-sm border-b border-line py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center">
           <a 
@@ -63,7 +69,7 @@ const Header: React.FC = () => {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="bg-primary text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-black transition-all"
+              className="bg-primary text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-black transition-all shadow-md hover:shadow-lg"
             >
               Falar com Anthony
             </a>
@@ -81,7 +87,7 @@ const Header: React.FC = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 bg-background z-40 transition-transform duration-500 ease-in-out md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed inset-0 bg-background z-40 transition-transform duration-500 ease-in-out md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'} will-change-transform`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8">
           {navLinks.map((link) => (
             <a

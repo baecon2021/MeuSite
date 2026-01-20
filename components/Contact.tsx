@@ -5,6 +5,7 @@ import Reveal from './ui/Reveal';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', whatsapp: '', message: '' });
+  const [showSuccess, setShowSuccess] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -13,6 +14,10 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Feedback visual ativado por 2 segundos
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 2000);
+
     // Formatação profissional da mensagem
     const message = 
 `Olá Anthony! 👋 Vi seu portfólio e gostaria de um orçamento.
@@ -114,14 +119,28 @@ ${formState.message}`;
                         />
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full md:w-auto h-14 md:h-auto">
-                        Iniciar Transformação <Send className="ml-2 h-4 w-4" />
+                    <Button type="submit" className="mt-4 w-full md:w-auto h-14 md:h-auto min-w-[220px]">
+                        {showSuccess ? (
+                          <span className="flex items-center gap-2 animate-[scaleIn_0.3s_ease-out]">
+                            Mensagem Enviada <Check className="h-4 w-4 text-white" />
+                          </span>
+                        ) : (
+                          <>
+                            Iniciar Transformação <Send className="ml-2 h-4 w-4" />
+                          </>
+                        )}
                     </Button>
                 </form>
             </Reveal>
           </div>
         </div>
       </div>
+      <style>{`
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </section>
   );
 };

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -10,19 +11,47 @@
     <meta name="title" content="Anthony Velho | Web Design Premium & Automação com IA" />
     <meta name="description" content="Especialista em Web Design de Alta Conversão e Automação com Inteligência Artificial. Transforme visitantes em clientes com Landing Pages rápidas, estratégicas e que vendem 24/7." />
     
+    <!-- Tailwind CDN para Preview Estável -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              background: '#F2F2F0',
+              surface: '#FFFFFF',
+              primary: '#0A0A0A',
+              secondary: '#525252',
+              accent: '#A3A3A3',
+              line: '#E5E5E5',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
+            backgroundImage: {
+              'grain': "url('https://grainy-gradients.vercel.app/noise.svg')",
+            }
+          }
+        }
+      }
+    </script>
+
     <!-- Keywords & SEO -->
     <meta name="keywords" content="Web Design Premium, Landing Page de Alta Conversão, Inteligência Artificial para Negócios, Automação de Atendimento, Criação de Sites Santa Catarina, Chatbots com IA, Design Minimalista, Otimização de Performance, Anthony Velho" />
     <meta name="author" content="Anthony Velho" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://anthonyvelho.com.br/" />
     
-    <!-- Geo Tags (SEO Local - Santa Catarina / Brasil) -->
+    <!-- Geo Tags -->
     <meta name="geo.region" content="BR-SC" />
     <meta name="geo.placename" content="Santa Catarina" />
     <meta name="geo.position" content="-26.91;-49.07" />
     <meta name="ICBM" content="-26.91, -49.07" />
     
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:url" content="https://anthonyvelho.com.br/" />
@@ -30,38 +59,21 @@
     <meta property="og:title" content="Anthony Velho | Web Design Premium & Automação com IA" />
     <meta property="og:description" content="Não é apenas um site. É uma máquina de vendas. Descubra como unir Design e Inteligência Artificial para escalar seu negócio." />
     <meta property="og:image" content="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://anthonyvelho.com.br/" />
-    <meta property="twitter:title" content="Anthony Velho | Web Design & IA" />
-    <meta property="twitter:description" content="Design de alta performance e automações inteligentes para negócios que querem liderar o mercado." />
-    <meta property="twitter:image" content="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" />
-    
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Anthony Velho - Web Design & IA",
       "image": "https://lh3.googleusercontent.com/d/1B_lFIE4L-vBrX6Yqqi7BiIhOCgJtxJMu",
-      "@id": "https://anthonyvelho.com.br/#website",
       "url": "https://anthonyvelho.com.br",
       "telephone": "+554792491544",
-      "priceRange": "$$$",
       "address": {
         "@type": "PostalAddress",
         "addressRegion": "Santa Catarina",
         "addressCountry": "BR"
-      },
-      "sameAs": [
-        "https://www.behance.net/anthonybanhara",
-        "https://www.instagram.com/anthonyvelho"
-      ],
-      "knowsAbout": ["Web Design", "Inteligência Artificial", "SEO", "Landing Pages", "React", "Automação Comercial"],
-      "description": "Estúdio criativo focado em Web Design de alta performance e soluções de Inteligência Artificial para empresas que buscam escala e posicionamento premium."
+      }
     }
     </script>
     
@@ -70,24 +82,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
-    <!-- Performance Hints -->
-    <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
-    
-    <!-- LCP Optimization -->
     <link rel="preload" as="image" href="https://lh3.googleusercontent.com/d/1p00D8Z8Fie2XSQB7YbzbKiyum-H_PQrF" fetchpriority="high">
-<script type="importmap">
+
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.1"
   }
 }
 </script>
-</head>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        html { scroll-behavior: smooth; }
+        body { @apply bg-background text-secondary font-sans antialiased overflow-x-hidden; }
+        h1, h2, h3, h4, h5, h6 { @apply font-display text-primary tracking-tight; }
+      }
+      @media (pointer: fine) {
+        .custom-cursor-active, .custom-cursor-active * { cursor: none !important; }
+      }
+      .bg-grain { background-image: url('https://grainy-gradients.vercel.app/noise.svg'); }
+    </style>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>

@@ -28,8 +28,8 @@ const App: React.FC = () => {
       {/* Componentes Globais de UI */}
       <CustomCursor />
       
-      {/* Grain Overlay - Performance otimizada com pointer-events-none */}
-      <div className="fixed inset-0 bg-grain opacity-[0.03] pointer-events-none z-0 mix-blend-multiply will-change-transform"></div>
+      {/* Grain Overlay - Performance otimizada: translate-z-0 força GPU layer, evitando repaints da página toda */}
+      <div className="fixed inset-0 bg-grain opacity-[0.03] pointer-events-none z-0 mix-blend-multiply transform-gpu translate-z-0"></div>
       
       {/* Main Wrapper */}
       <div className={`relative z-10 transition-opacity duration-1000 w-full overflow-x-hidden ${isLoading ? 'opacity-0' : 'opacity-100'}`}>

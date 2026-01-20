@@ -12,7 +12,7 @@ const Reveal: React.FC<RevealProps> = ({
   children, 
   width = "fit-content", 
   delay = 0, 
-  duration = 1.0, // Aumentado para 1.0s para ser mais suave e notável
+  duration = 1.0, 
   variant = "blur" 
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,23 +22,18 @@ const Reveal: React.FC<RevealProps> = ({
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        // Entrou na tela
         setIsVisible(true);
         
         const totalTime = (duration * 1000) + (delay * 1000) + 100;
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             setIsAnimationComplete(true);
         }, totalTime);
-      } else {
-        // Saiu da tela
-        if (entry.boundingClientRect.top > 0 || entry.boundingClientRect.bottom < 0) {
-            setIsVisible(false);
-            setIsAnimationComplete(false);
-        }
+        
+        return () => clearTimeout(timer);
       }
     }, { 
-        threshold: 0.2, // Precisa de 20% do elemento visível para disparar
-        rootMargin: "0px 0px -50px 0px" // Margem negativa embaixo: atrasa a entrada (só anima quando já subiu 50px) e antecipa a saída
+        threshold: 0.2, 
+        rootMargin: "0px 0px -50px 0px" 
     });
 
     if (ref.current) {
@@ -52,7 +47,6 @@ const Reveal: React.FC<RevealProps> = ({
 
   const getTransform = () => {
     if (!isVisible) {
-      // Aumentei os valores de translação para tornar o movimento mais evidente
       if (variant === "slide") return "translateY(100px)"; 
       if (variant === "blur") return "translateY(40px) scale(0.95)";
       return "none";
@@ -80,9 +74,9 @@ const Reveal: React.FC<RevealProps> = ({
           transform: getTransform(),
           opacity: getOpacity(),
           filter: getFilter(),
-          // Adicionado transition-delay no CSS para garantir controle preciso
           transition: `transform ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s, opacity ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s, filter ${duration}s cubic-bezier(0.2, 0.6, 0.2, 1) ${delay}s`,
-          willChange: "transform, opacity, filter"
+          // PERFORMANCE: Remove will-change após a animação para economizar memória
+          willChange: isAnimationComplete ? "auto" : "transform, opacity, filter"
         }}
       >
         {children}
