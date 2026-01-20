@@ -69,10 +69,10 @@ const Importance: React.FC = () => {
             <span className={`font-serif italic text-xl mb-3 block transition-colors duration-500 ${isLit ? 'text-neutral-400' : 'text-secondary/60'}`}>
                 A Realidade Digital
             </span>
-            <h2 className="text-4xl lg:text-6xl font-light tracking-tighter mb-6 leading-[0.95]">
+            <h2 className={`text-4xl lg:text-6xl font-light tracking-tighter mb-6 leading-[0.95] transition-colors duration-500 ${isLit ? 'text-white' : 'text-primary'}`}>
               Você não é <br />
               dono do seu <br />
-              <span className={`font-medium transition-colors duration-500 ${isLit ? 'text-neutral-500' : 'text-secondary'}`}>negócio.</span>
+              <span className={`font-medium transition-colors duration-500 ${isLit ? 'text-neutral-300' : 'text-secondary'}`}>negócio.</span>
             </h2>
             <p className={`text-lg font-light leading-relaxed mb-6 max-w-md transition-colors duration-500 ${isLit ? 'text-neutral-300' : 'text-secondary'}`}>
               Parece duro, mas é verdade. Se sua única vitrine é uma rede social, você é um inquilino digital. A qualquer momento, as regras mudam e seu faturamento desaparece.
@@ -103,7 +103,9 @@ const Importance: React.FC = () => {
                   {point.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-medium mb-2 tracking-tight">{point.title}</h3>
+                  <h3 className={`text-xl font-medium mb-2 tracking-tight transition-colors duration-500 ${isLit ? 'text-white' : 'text-primary'}`}>
+                    {point.title}
+                  </h3>
                   <p className={`text-base font-light leading-relaxed max-w-sm transition-colors duration-500 ${isLit ? 'text-neutral-400' : 'text-secondary'}`}>
                     {point.text}
                   </p>
