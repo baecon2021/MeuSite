@@ -8,3 +8,4 @@ declare module '*.tiff';
 declare module '*.css';
 declare module '*.scss';
 declare module '*.sass';
+declare module 'lottie-react';
