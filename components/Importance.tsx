@@ -181,12 +181,13 @@ const Importance: React.FC = () => {
             }}
         />
 
-        {/* CAMADA ESCURA (FANTASMA) - Relative para ditar a altura da seção */}
-        <div className={`relative z-10 transition-opacity duration-500 pointer-events-none ${isLightOn ? 'opacity-0' : 'opacity-100 grayscale blur-[1px]'}`}>
-            <ContentLayer isLit={false} />
+        {/* CAMADA ESCURA (FANTASMA) - Fundo "Desligado" */}
+        {/* CORREÇÃO: Usar isLit={true} com baixa opacidade para garantir contraste no fundo preto. */}
+        <div className={`relative z-10 transition-all duration-500 pointer-events-none ${isLightOn ? 'opacity-0' : 'opacity-[0.15]'}`}>
+            <ContentLayer isLit={true} />
         </div>
 
-        {/* CAMADA CLARA (REVEAL) - Absolute para sobrepor exatamente */}
+        {/* CAMADA CLARA (REVEAL) - Fundo "Ligado" / Lanterna */}
         <div 
             className="absolute inset-0 z-20 pointer-events-none will-change-[mask-image] flex flex-col justify-center"
             style={{
